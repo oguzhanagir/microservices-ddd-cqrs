@@ -23,6 +23,11 @@ internal class UpdateProductCommandHandler(IDocumentSession session) : ICommandH
     {
         var product = await session.LoadAsync<Product>(command.Id, cancellationToken);
 
+        if (product is null)
+        {
+            return new UpdateProductResult(false);
+        }
+
         product.Name = command.Name;
         product.Category = command.Category;
         product.Description = command.Description;
